@@ -34,11 +34,7 @@ export default class App extends Component {
         <Navigator
           initialRoute={{name: '胡老丝', index: 0}}
           renderScene={(route, navigator) =>
-            <List
-              name={route.name}
-              navigator={Navigator}
-              push={navigator.push}
-            />
+            <List navigator={navigator}/>
           }
           navigationBar={<View>
               <Text>lalala</Text>

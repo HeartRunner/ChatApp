@@ -15,7 +15,7 @@ class List extends Component {
 
   onItemPress = (href) => {
     return () => {
-      this.props.push(
+      this.props.navigator.push(
         {
           title: '详情',
           component: Detail,
