@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 
 // 不是最佳方法
 import Detail from './Detail';
+import ListItem from '../components/ListItem';
 
 class List extends Component {
   constructor(props) {
@@ -18,7 +19,7 @@ class List extends Component {
       this.props.navigator.push(
         {
           title: '详情',
-          component: Detail,
+          name: 'Detail',
           passProps: {href},
         }
       )
@@ -29,24 +30,29 @@ class List extends Component {
 
     return (
       <View style={styles.container}>
-        <TouchableHighlight onPress={this.props.load}>
-          <Text style={styles.welcome}>LOAD</Text>
-        </TouchableHighlight>
-        <Text>{loading ? 'loading' : 'not loading'}</Text>
-        <Text>{loaded ? 'loaded' : 'not loaded'}</Text>
+        {loading && <Text style={styles.loading}>载入中.....</Text>}
         <ScrollView style={{flex: 1}}>
-        {
+          {
 
-          list.map( (text, index) =>{
-            return <TouchableHighlight key={index} onPress={this.onItemPress(text.href)}>
-              <Text style={styles.instructions}>{text.text}</Text>
-            </TouchableHighlight>;
-          })
-        }
+            list.map( (item, index) =>{
+              return <TouchableHighlight key={index} onPress={this.onItemPress(item.href)}>
+                <Text style={styles.instructions}>{item.title}</Text>
+              </TouchableHighlight>;
+            })
+          }
+          <TouchableHighlight onPress={this.props.load}>
+            <Text style={styles.loadText}>重新加载</Text>
+          </TouchableHighlight>
         </ScrollView>
       </View>
 
     );
+  }
+}
+
+List.fetchData = function(getState, dispatch) {
+  if (!getState().list.loaded) {
+    dispatch(load());
   }
 }
 
@@ -63,14 +69,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  loading: {
+    fontSize: 12,
+    marginTop: 3,
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#111',
-    marginBottom: 5,
+  loadText: {
+    margin: 12,
   },
 });

@@ -19,7 +19,6 @@ class Detail extends Component {
     super(props);
     console.log('props', props);
   }
-
   onItemPress = (href) => {
     return () => {
       console.log(href);
@@ -48,15 +47,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#111',
-    marginBottom: 5,
   },
 });

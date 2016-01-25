@@ -5,9 +5,13 @@ const LOAD_SUCCESS = 'list/load_success';
 const LOAD_FAIL = 'list/load_fail';
 import cheerio from 'cheerio';
 
-const itemRecord = Record({
+const ItemRecord = Record({
   href: '',
   text: '',
+  title: '',
+  location: '',
+  cams: '',
+  img: '',
 });
 
 const INITIAL_STATE = new Record({
@@ -24,12 +28,22 @@ function handleLoadSuccess(state, action) {
     const elem = $(element);
     const text = elem.text();
     const href = elem.children('a').first().attr('href');
-    successState = successState.update('list', list => list.push(new itemRecord({
+    const img = elem.children('a').first().children('img').first().attr('src');
+    const detail = elem.children('.details');
+    const title = detail.children('.subject').children().first().attr('title');
+    const location = detail.children('.sub-info').children().first().text();
+    const cams = detail.children('.sub-info').children().eq(1).text();
+    console.log('img', img);
+    successState = successState.update('list', list => list.push(new ItemRecord({
       href,
       text,
+      title,
+      location,
+      cams,
+      img,
     })));
   });
-  return successState.set('loaded', true).set('loading', true).set('error', null);
+  return successState.set('loaded', true).set('loading', false).set('error', null);
 }
 
 export default function news(state = INITIAL_STATE, action = {}) {

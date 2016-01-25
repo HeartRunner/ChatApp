@@ -22,27 +22,27 @@ export default class ApiClient {
     methods.forEach((method) =>
       this[method] = (path, { params, data, token, attach } = {}) => {
 
-        const options = {
-          method,
-          redirect: 'follow',
-          headers: {},
-        };
+      const options = {
+        method,
+        redirect: 'follow',
+        headers: {},
+      };
 
-        if (params) {
-          request.query(params);
-        }
+      if (params) {
+        request.query(params);
+      }
 
 
-        if (data) {
-          options.body = JSON.parse(data);
-        }
+      if (data) {
+        options.body = JSON.parse(data);
+      }
 
-        if (token) {
-          options.headers.authorization = 'Bearer ' + token;
-        }
+      if (token) {
+        options.headers.authorization = 'Bearer ' + token;
+      }
 
-        return fetch(path, options).then(status);
+      return fetch(path, options).then(status);
 
-      });
+    });
   }
 }
