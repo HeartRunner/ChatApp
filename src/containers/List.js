@@ -1,6 +1,14 @@
 'use strict';
 
-import React, { StyleSheet, Component, TouchableHighlight, ScrollView, View, Text } from 'react-native';
+import React, {
+  StyleSheet,
+  Component,
+  TouchableHighlight,
+  ScrollView,
+  View,
+  Text,
+  ListView,
+} from 'react-native';
 import {bindActionCreators} from 'redux';
 import {load} from '../modules/list';
 import { connect } from 'react-redux';
@@ -12,6 +20,17 @@ import ListItem from '../components/ListItem';
 class List extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      dataSource: new ListView.DataSource({
+        rowHasChanged: (row1, row2) => row1 !== row2,
+      })
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.list !== nextProps) {
+      this.setState({dataSource: this.state.dataSource.cloneWithRows(nextProps.list.toJS())});
+    }
   }
 
   onItemPress = (href) => {
@@ -25,25 +44,29 @@ class List extends Component {
       )
     };
   };
+
+  renderFooter = () => {
+    return <TouchableHighlight onPress={this.props.load} style={styles.loadButton}>
+          <Text style={styles.loadText}>重新加载</Text>
+        </TouchableHighlight>;
+  };
+
+  renderList = (item) => {
+    return <ListItem onItemPress={this.onItemPress} {...item} />
+  };
+
   render() {
     const { loading, loaded, list } = this.props;
 
     return (
       <View style={styles.container}>
-        {loading && <Text style={styles.loading}>载入中.....</Text>}
-        <ScrollView style={{flex: 1}}>
-          {
-
-            list.map( (item, index) =>{
-              return <TouchableHighlight key={index} onPress={this.onItemPress(item.href)}>
-                <Text style={styles.instructions}>{item.title}</Text>
-              </TouchableHighlight>;
-            })
-          }
-          <TouchableHighlight onPress={this.props.load}>
-            <Text style={styles.loadText}>重新加载</Text>
-          </TouchableHighlight>
-        </ScrollView>
+        {loading && <View style={styles.loading}><Text>载入中.....</Text></View>}
+        <ListView
+          dataSource={this.state.dataSource}
+          renderRow={this.renderList}
+          style={styles.scrollView}
+          renderFooter={this.renderFooter}
+        />
       </View>
 
     );
@@ -67,13 +90,22 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#E5F1F1',
   },
   loading: {
-    fontSize: 12,
-    marginTop: 3,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  loadButton: {
+    alignSelf: 'stretch',
   },
   loadText: {
     margin: 12,
+    textAlign: 'center',
   },
+  scrollView: {
+    flex: 1,
+    alignSelf: 'stretch',
+  }
 });

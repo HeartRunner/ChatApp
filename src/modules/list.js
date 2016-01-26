@@ -33,7 +33,6 @@ function handleLoadSuccess(state, action) {
     const title = detail.children('.subject').children().first().attr('title');
     const location = detail.children('.sub-info').children().first().text();
     const cams = detail.children('.sub-info').children().eq(1).text();
-    console.log('img', img);
     successState = successState.update('list', list => list.push(new ItemRecord({
       href,
       text,

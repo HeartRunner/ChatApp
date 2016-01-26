@@ -62,7 +62,7 @@ export default class App extends Component {
   };
 
   renderScene = (route, navigator) => {
-    this.listenEvents(navigator);
+    // this.listenEvents(navigator);
     let Elem;
     let backable = true;
     console.log('routed', route);
@@ -78,7 +78,7 @@ export default class App extends Component {
         break;
     }
     if (Elem.fetchData) {
-      Elem.fetchData(store.getState, store.dispatch, route);
+      Elem.fetchData(store.getState, store.dispatch, route.passProps, route);
     }
     return (<View style={styles.container}>
       <Nav backable={backable} title={route.title} pop={navigator.pop}/>
@@ -91,7 +91,7 @@ export default class App extends Component {
       <Provider store={store}>
 
         <Navigator
-          initialRoute={{name: 'List', title: '首页'}}
+          initialRoute={{name: 'List', title: '首页'} /* {title: "详情", name: "Detail", passProps: {href: '/bellecurve/'} */}
           renderScene={this.renderScene}
         />
 
@@ -102,7 +102,8 @@ export default class App extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: '#E5F1F1',
   }
 
 });
