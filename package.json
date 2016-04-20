@@ -13,7 +13,7 @@
     "react-native-video": "git+https://github.com/brentvatne/react-native-video.git",
     "react-redux": "^4.0.6",
     "redux": "^3.0.5",
-    "remote-redux-devtools": "0.0.10"
+    "remote-redux-devtools": "0.1.9"
   },
   "devDependencies": {
     "eslint": "^1.10.3",
