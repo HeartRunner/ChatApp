@@ -1,6 +1,6 @@
-import React, {
+import React, {Component} from 'react';
+import {
   StyleSheet,
-  Component,
   Text,
   View,
   Navigator,
@@ -91,7 +91,7 @@ export default class App extends Component {
       <Provider store={store}>
 
         <Navigator
-          initialRoute={{name: 'List', title: '首页'} /* {title: "详情", name: "Detail", passProps: {href: '/bellecurve/'} */}
+          initialRoute={{name: 'List', title: '首页'}}
           renderScene={this.renderScene}
         />
 

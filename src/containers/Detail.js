@@ -1,14 +1,14 @@
 // 等待实现
 
 'use strict';
-
-import React, {
+import React, {Component} from 'react';
+import {
   StyleSheet,
-  Component,
   TouchableHighlight,
   ScrollView,
   View,
-  Text
+  Text,
+  WebView,
 } from 'react-native';
 import Video from 'react-native-video';
 import {bindActionCreators} from 'redux';
@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
   },
   video: {
+    flex: 1,
     position: 'absolute',
     top: 0,
     left: 0,
@@ -57,31 +58,40 @@ class Detail extends Component {
   }
 
   onLoad() {
-    console.log('onLoad');
+    console.warn('onLoad');
   }
   onProgress(ct) {
-    console.log(ct);
+    console.warn(ct);
   }
   onError(error) {
-    console.log('error', error);
+    console.warn('error', error);
   }
 
   render() {
     const { detail, href } = this.props;
     const loading = detail.get('loading');
     const loaded = detail.get('loaded');
+    // const src = 'http://www.baidu.com';
     const src = detail.get(href);
-    console.log('src', src);
+    console.warn('src', src);
     return (
       <View style={styles.container}>
         {loading && <View style={styles.loading}><Text>载入中.....</Text></View>}
+        {/*src && <View style={styles.video}><WebView
+          source={src}
+          onLoad={this.onLoad}
+          onError={this.onError}
+          style={styles.video}
+          scalesPageToFit
+        /></View>*/}
+
         {src && <Video
           resizeMode="cover"
           onLoad={this.onLoad}
           onError={this.onError}
           style={styles.video}
           source={{ uri: src }}
-        />}
+        /> }
         {!loading && !src && <Text>主播未直播</Text>}
       </View>
 

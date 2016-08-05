@@ -1,6 +1,6 @@
 'use strict';
-
-import React, {
+import React, {Component} from 'react';
+import {
   StyleSheet,
   TouchableHighlight,
   Text,
